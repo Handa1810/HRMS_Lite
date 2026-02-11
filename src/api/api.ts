@@ -12,6 +12,8 @@ export interface AttendanceRecord {
   status: "Present" | "Absent";
 }
 
+const API_BASE = (import.meta as any).env.VITE_API_URL || "";
+
 const handleRes = async (res: Response) => {
   if (!res.ok) {
     const err = await res.text();
@@ -22,12 +24,12 @@ const handleRes = async (res: Response) => {
 };
 
 export const getEmployees = async () => {
-  const res = await fetch(`/api/employees`);
+  const res = await fetch(`${API_BASE}/api/employees`);
   return handleRes(res);
 };
 
 export const addEmployee = async (employee: Employee) => {
-  const res = await fetch(`/api/employees`, {
+  const res = await fetch(`${API_BASE}/api/employees`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(employee),
@@ -36,12 +38,12 @@ export const addEmployee = async (employee: Employee) => {
 };
 
 export const deleteEmployee = async (employee_id: string) => {
-  const res = await fetch(`/api/employees/${employee_id}`, { method: "DELETE" });
+  const res = await fetch(`${API_BASE}/api/employees/${employee_id}`, { method: "DELETE" });
   return handleRes(res);
 };
 
 export const markAttendance = async (attendance: AttendanceRecord) => {
-  const res = await fetch(`/api/attendance`, {
+  const res = await fetch(`${API_BASE}/api/attendance`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(attendance),
@@ -50,6 +52,6 @@ export const markAttendance = async (attendance: AttendanceRecord) => {
 };
 
 export const getAttendance = async (employee_id: string) => {
-  const res = await fetch(`/api/attendance/${employee_id}`);
+  const res = await fetch(`${API_BASE}/api/attendance/${employee_id}`);
   return handleRes(res);
 };
